@@ -48,6 +48,9 @@ pub enum Auth {
     Bearer {
         token: String,
     },
+    Custom {
+        token: String,
+    },
 }
 
 /// Errors that can occur during building of the client
@@ -207,6 +210,7 @@ impl ClientBuilder {
             Auth::None => request,
             Auth::Basic { user, password } => request.basic_auth(user, password.clone()),
             Auth::Bearer { token } => request.bearer_auth(token),
+            Auth::Custom { token } => request.header("Authorization", token),
         };
 
         let http_response = request.send().await?.error_for_status()?;
