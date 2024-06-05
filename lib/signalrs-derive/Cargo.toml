@@ -1,12 +1,12 @@
 [package]
-name = "signalrs-derive"
+name = "signalrs-derive-custom-auth"
 version = "0.1.0"
-authors = ["Radosław Kot"]
+authors = ["Dusks"]
 edition = "2021"
 license = "MIT"
 description = "Derive macros for SignalR client for Rust"
 readme = "../../README.md"
-repository = "https://github.com/szarykott/signalrs"
+repository = "https://github.com/koiseka/signalrs"
 categories = ["network-programming"]
 
 [lib]

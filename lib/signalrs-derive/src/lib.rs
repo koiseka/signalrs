@@ -6,7 +6,7 @@ use syn::{parse_macro_input, DeriveInput};
 pub fn derive(input: TokenStream) -> TokenStream {
     let DeriveInput { ident, .. } = parse_macro_input!(input);
     let output = quote! {
-        impl signalrs_client::hub::arguments::HubArgument for #ident { }
+        impl signalrs_client_custom_auth::hub::arguments::HubArgument for #ident { }
     };
     output.into()
 }
