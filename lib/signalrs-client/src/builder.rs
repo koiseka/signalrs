@@ -48,7 +48,8 @@ pub enum Auth {
     Bearer {
         token: String,
     },
-    Custom {
+    Res {
+        user_id: String,
         token: String,
     },
 }
@@ -76,7 +77,7 @@ pub enum NegotiateError {
     #[error("request error")]
     Request {
         #[from]
-        source: reqwest::Error,
+        source: dusks_reqwest::Error,
     },
     #[error("deserialization error")]
     Deserialization {
@@ -204,13 +205,13 @@ impl ClientBuilder {
             self.get_query_string()
         );
 
-        let mut request = reqwest::Client::new().post(negotiate_endpoint);
+        let mut request = dusks_reqwest::Client::new().post(negotiate_endpoint);
 
         request = match &self.auth {
             Auth::None => request,
             Auth::Basic { user, password } => request.basic_auth(user, password.clone()),
             Auth::Bearer { token } => request.bearer_auth(token),
-            Auth::Custom { token } => request.header("Authorization", token),
+            Auth::Res { user_id, token } => request.res_auth(user_id, token),
         };
 
         let http_response = request.send().await?.error_for_status()?;

@@ -1,4 +1,4 @@
-use signalrs_client::SignalRClient;
+use signalrs_client_custom_auth::SignalRClient;
 
 #[tokio::test]
 async fn main() -> anyhow::Result<()> {
