@@ -1,5 +1,5 @@
 [package]
-name = "signalrs-client"
+name = "signalrs-client-custom-auth"
 version = "0.1.1"
 authors = ["Dusks"]
 edition = "2021"
