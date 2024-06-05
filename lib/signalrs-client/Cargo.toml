@@ -2,7 +2,7 @@
 name = "signalrs-client"
 version = "0.1.1"
 authors = ["Dusks"]
-edition = "2024"
+edition = "2021"
 license = "MIT"
 description = "SignalR client for Rust"
 readme = "../../README.md"
