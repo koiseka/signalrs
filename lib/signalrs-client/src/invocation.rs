@@ -231,8 +231,13 @@ impl<'a> InvocationBuilder<'a> {
     ) -> Result<ResponseStream<'a, T>, ClientError> {
         let invocation_id = Uuid::new_v4().to_string();
 
+        // let arguments = match self.arguments {
+        //     Some(args) => args,
+        //     None => vec![],
+        // };
+
         let mut invocation =
-            StreamInvocation::new(invocation_id.clone(), self.method, Some(self.arguments));
+            StreamInvocation::new(invocation_id.clone(), self.method, self.arguments);
         invocation.with_streams(get_stream_ids(&self.streams));
 
         let serialized = self
@@ -249,11 +254,12 @@ impl<'a> InvocationBuilder<'a> {
     }
 }
 
-fn args_as_option(arguments: Vec<serde_json::Value>) -> Option<Vec<serde_json::Value>> {
+fn args_as_option(arguments: Vec<serde_json::Value>) -> Vec<serde_json::Value> {
     if arguments.is_empty() {
-        None
+        // None
+        Vec::new()
     } else {
-        Some(arguments)
+        arguments
     }
 }
 
