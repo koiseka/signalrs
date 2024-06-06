@@ -97,13 +97,13 @@ pub struct Invocation<A> {
     #[serde(skip_serializing_if = "Option::is_none")]
     invocation_id: Option<String>,
     target: String,
-    arguments: A,
+    arguments: Vec<A>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stream_ids: Option<Vec<String>>,
 }
 
 impl<A> Invocation<A> {
-    pub fn non_blocking(target: impl Into<String>, arguments: A) -> Self {
+    pub fn non_blocking(target: impl Into<String>, arguments: Vec<A>) -> Self {
         Invocation {
             r#type: MessageType::Invocation,
             headers: None,
@@ -136,8 +136,7 @@ pub struct StreamInvocation<A> {
     headers: Option<HashMap<String, String>>,
     invocation_id: String,
     target: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    arguments: Option<A>,
+    arguments: Vec<A>,
     #[serde(skip_serializing_if = "Option::is_none")]
     stream_ids: Option<Vec<String>>,
 }
@@ -146,7 +145,7 @@ impl<A> StreamInvocation<A> {
     pub fn new(
         invocation_id: impl Into<String>,
         target: impl Into<String>,
-        arguments: Option<A>,
+        arguments: Vec<A>,
     ) -> Self {
         StreamInvocation {
             r#type: MessageType::StreamInvocation,
@@ -321,7 +320,7 @@ pub struct RoutingData {
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Arguments<T> {
-    pub arguments: Option<T>,
+    pub arguments: Vec<T>,
 }
 
 #[derive(Deserialize, Debug)]
