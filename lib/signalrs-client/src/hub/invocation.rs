@@ -66,7 +66,7 @@ fn get_arguments(message: &ClientMessage) -> Result<ArgumentsLeft, ExtractionErr
             let text = message.unwrap_text();
             let arguments: Arguments<Value> = serde_json::from_str(text)?;
             Ok(ArgumentsLeft::Text(arguments.arguments.into_iter()))
-            // match arguments.arguments.unwrap_or_default() {
+            // match arguments.arguments {
             //     Value::Array(array) => Ok(ArgumentsLeft::Text(array.into_iter())),
             //     _ => Err(ExtractionError::NotAnArray),
             // }
