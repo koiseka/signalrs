@@ -90,20 +90,20 @@ pub struct Close {
 /// Indicates a request to invoke a particular method (the Target) with provided Arguments on the remote endpoint.
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 #[serde(rename_all = "camelCase")]
-pub struct Invocation<A> {
+pub struct Invocation {
     r#type: MessageType,
     #[serde(skip_serializing_if = "Option::is_none")]
     headers: Option<HashMap<String, String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     invocation_id: Option<String>,
     target: String,
-    arguments: Vec<A>,
+    arguments: Vec<serde_json::Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub stream_ids: Option<Vec<String>>,
 }
 
-impl<A> Invocation<A> {
-    pub fn non_blocking(target: impl Into<String>, arguments: Vec<A>) -> Self {
+impl Invocation {
+    pub fn non_blocking(target: impl Into<String>, arguments: Vec<serde_json::Value>) -> Self {
         Invocation {
             r#type: MessageType::Invocation,
             headers: None,
@@ -130,22 +130,22 @@ impl<A> Invocation<A> {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 /// Indicates a request to invoke a streaming method (the Target) with provided Arguments on the remote endpoint.
-pub struct StreamInvocation<A> {
+pub struct StreamInvocation {
     r#type: MessageType,
     #[serde(skip_serializing_if = "Option::is_none")]
     headers: Option<HashMap<String, String>>,
     invocation_id: String,
     target: String,
-    arguments: Vec<A>,
+    arguments: Vec<serde_json::Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
     stream_ids: Option<Vec<String>>,
 }
 
-impl<A> StreamInvocation<A> {
+impl StreamInvocation {
     pub fn new(
         invocation_id: impl Into<String>,
         target: impl Into<String>,
-        arguments: Vec<A>,
+        arguments: Vec<serde_json::Value>,
     ) -> Self {
         StreamInvocation {
             r#type: MessageType::StreamInvocation,
@@ -319,8 +319,8 @@ pub struct RoutingData {
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct Arguments<T> {
-    pub arguments: Vec<T>,
+pub struct Arguments {
+    pub arguments: Vec<serde_json::Value>,
 }
 
 #[derive(Deserialize, Debug)]
